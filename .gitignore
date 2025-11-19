@@ -2,3 +2,5 @@
 .meier
 .DS_Store
 crates/*/tests
+.zed
+.env
