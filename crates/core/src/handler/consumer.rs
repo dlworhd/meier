@@ -66,7 +66,7 @@ pub async fn handle_consume_next(
 
     let current_offset = partition.current_offset().await;
 
-    match partition.get_message(current_offset).await {
+    match partition.consume_message().await {
         Some(msg) => {
             let message_str = msg
                 .to_string()
