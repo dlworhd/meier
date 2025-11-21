@@ -12,7 +12,6 @@ struct Args {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
-
     tracing_subscriber::fmt::init();
 
     let mut config = if let Some(config_path) = args.config {
