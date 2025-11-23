@@ -1,4 +1,3 @@
-// crates/core/examples/consumer_async.rs
 use serde_json::Value;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;

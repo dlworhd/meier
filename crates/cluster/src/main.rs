@@ -1,5 +1,5 @@
 use clap::Parser;
-use tesseract_core::{Config, Result, server::Server};
+use tesseract_cluster::{Config, Result, server::Server};
 use tracing::{error, info};
 
 #[derive(Parser, Debug)]

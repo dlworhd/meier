@@ -1,5 +1,5 @@
 [package]
-name = "tesseract_core"
+name = "tesseract_cluster"
 version.workspace = true
 edition.workspace = true
 

@@ -858,7 +858,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "tesseract_core"
+name = "tesseract_cluster"
 version = "0.1.0"
 dependencies = [
  "anyhow",
