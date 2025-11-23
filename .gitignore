@@ -1,5 +1,5 @@
 /target
-.meier
+.tesseract
 .DS_Store
 crates/*/tests
 .zed

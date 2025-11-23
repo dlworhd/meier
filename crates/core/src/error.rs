@@ -1,7 +1,7 @@
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-pub enum MeierError {
+pub enum TesseractError {
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 
@@ -24,4 +24,4 @@ pub enum MeierError {
     PartitionNotFound(String),
 }
 
-pub type Result<T> = std::result::Result<T, MeierError>;
+pub type Result<T> = std::result::Result<T, TesseractError>;

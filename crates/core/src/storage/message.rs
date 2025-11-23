@@ -1,4 +1,4 @@
-use crate::MeierError;
+use crate::TesseractError;
 
 #[derive(Debug, Clone)]
 pub struct Message {
@@ -24,6 +24,6 @@ impl Message {
 
     pub fn to_string(&self) -> crate::Result<String> {
         String::from_utf8(self.data.clone())
-            .map_err(|e| MeierError::Protocol(format!("Invalid UTF-8: {}", e)))
+            .map_err(|e| TesseractError::Protocol(format!("Invalid UTF-8: {}", e)))
     }
 }
