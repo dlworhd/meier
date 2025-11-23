@@ -1,0 +1,12 @@
+[package]
+name = "tesseract_tui"
+version = "0.1.0"
+description = "Distributed data streaming"
+authors = ["dlworhd <dlwodud821@gmail.com>"]
+license = "MIT"
+edition = "2024"
+
+[dependencies]
+color-eyre = "0.6.3"
+crossterm = "0.29.0"
+ratatui = "0.30.0-beta"
