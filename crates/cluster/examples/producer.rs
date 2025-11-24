@@ -74,7 +74,7 @@ async fn produce_message_async(
     );
 
     let json_data = frame.as_bytes();
-    let length = json_data.len() as u32;
+    let length = json_data.len();
 
     // 비동기 전송
     stream.write_all(&length.to_be_bytes()).await?;
@@ -83,11 +83,13 @@ async fn produce_message_async(
 
     // 비동기 수신
     let mut length_bytes = [0u8; 4];
+
     stream.read_exact(&mut length_bytes).await?;
+
     let length = u32::from_be_bytes(length_bytes) as usize;
     let mut buffer = vec![0u8; length];
-    stream.read_exact(&mut buffer).await?;
 
+    stream.read_exact(&mut buffer).await?;
     pool.return_connection(stream).await;
 
     Ok(start.elapsed())

@@ -25,7 +25,7 @@ async fn send_consume_next(
         r#"{{"ConsumeNext": {{"topic":"{}","partition_id":{}}}}}"#,
         topic, partition_id
     );
-    let length = frame.len() as u32;
+    let length = frame.len();
 
     let mut v = Vec::new();
     v.extend_from_slice(&length.to_be_bytes());

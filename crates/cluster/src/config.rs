@@ -140,7 +140,7 @@ impl Config {
     pub fn from_file<P: AsRef<Path>>(path: P) -> crate::error::Result<Self> {
         let settings = config::Config::builder()
             .add_source(config::File::with_name(path.as_ref().to_str().unwrap()))
-            .add_source(config::Environment::with_prefix("MEIER"))
+            .add_source(config::Environment::with_prefix("TESSERACT"))
             .build()
             .map_err(|e| crate::error::TesseractError::Config(e.to_string()))?;
 
@@ -152,7 +152,7 @@ impl Config {
     // 환경변수 내 추출
     pub fn from_env() -> crate::error::Result<Self> {
         let settings = config::Config::builder()
-            .add_source(config::Environment::with_prefix("MEIER"))
+            .add_source(config::Environment::with_prefix("TESSERACT"))
             .build()
             .map_err(|e| crate::error::TesseractError::Config(e.to_string()))?;
 

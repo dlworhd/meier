@@ -1,7 +1,6 @@
 use std::io;
 
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
-use ratatui::{DefaultTerminal, Frame, Terminal};
 use ratatui::{
     buffer::Buffer,
     layout::Rect,
@@ -10,6 +9,7 @@ use ratatui::{
     text::{Line, Text},
     widgets::{Block, Paragraph, Widget},
 };
+use ratatui::{DefaultTerminal, Frame, Terminal};
 
 #[derive(Debug, Default)]
 pub struct App {
