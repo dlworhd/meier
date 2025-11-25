@@ -514,6 +514,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34080505efa8e45a4b816c349525ebe327ceaa8559756f0356cba97ef3bf7432"
 
 [[package]]
+name = "meier_core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "clap",
+ "config",
+ "directories",
+ "futures",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tokio-util",
+ "toml",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "memchr"
 version = "2.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -855,26 +875,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "tesseract_cluster"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "bytes",
- "clap",
- "config",
- "directories",
- "futures",
- "serde",
- "serde_json",
- "thiserror",
- "tokio",
- "tokio-util",
- "toml",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]

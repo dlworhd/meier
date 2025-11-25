@@ -2,7 +2,7 @@ use std::{collections::HashMap, sync::Arc};
 use tokio::sync::RwLock;
 
 use crate::{
-    Result, TesseractError,
+    MeierError, Result,
     storage::{BufferManager, Message, Partition},
 };
 
@@ -85,14 +85,14 @@ impl TopicManager {
         let mut topics = self.topics.write().await;
 
         if topics.len() >= self.max_topics {
-            return Err(TesseractError::Storage(format!(
+            return Err(MeierError::Storage(format!(
                 "Maximum topics limit reached: {}",
                 self.max_topics
             )));
         }
 
         if topics.contains_key(&name) {
-            return Err(TesseractError::Storage(format!(
+            return Err(MeierError::Storage(format!(
                 "Topic already exists: {}",
                 name
             )));
@@ -126,7 +126,7 @@ impl TopicManager {
         let mut topics = self.topics.write().await;
         topics
             .remove(name)
-            .ok_or_else(|| TesseractError::TopicNotFound(name.to_string()))?;
+            .ok_or_else(|| MeierError::TopicNotFound(name.to_string()))?;
         Ok(())
     }
 }

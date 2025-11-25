@@ -4,7 +4,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use crate::{Result, TesseractError};
+use crate::{MeierError, Result};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
@@ -90,11 +90,11 @@ impl Config {
     pub fn user_config_file() -> Result<PathBuf> {
         let home = env::var("HOME")
             .or_else(|_| env::var("USERPROFILE"))
-            .map_err(|_| TesseractError::Config("Failed to get home directory".to_string()))?;
+            .map_err(|_| MeierError::Config("Failed to get home directory".to_string()))?;
 
         Ok(PathBuf::from(home)
             .join(".config")
-            .join("tesseract")
+            .join("meier")
             .join("config.toml"))
     }
 
@@ -106,7 +106,7 @@ impl Config {
     pub fn load_user_config() -> Result<Self> {
         let config_file = Self::user_config_file()?;
         if !config_file.exists() {
-            return Err(TesseractError::Config(format!(
+            return Err(MeierError::Config(format!(
                 "Config file not found: {}",
                 config_file.display(),
             )));
@@ -119,15 +119,14 @@ impl Config {
         let config_file = Self::user_config_file()?;
         let config_dir = config_file.parent().unwrap();
 
-        fs::create_dir_all(config_dir).map_err(|e| {
-            TesseractError::Config(format!("Failed to create config directory: {}", e))
-        })?;
+        fs::create_dir_all(config_dir)
+            .map_err(|e| MeierError::Config(format!("Failed to create config directory: {}", e)))?;
 
         let toml_content = toml::to_string_pretty(self)
-            .map_err(|e| TesseractError::Config(format!("Failed to serialize config: {}", e)))?;
+            .map_err(|e| MeierError::Config(format!("Failed to serialize config: {}", e)))?;
 
         fs::write(&config_file, toml_content)
-            .map_err(|e| TesseractError::Config(format!("Failed to write config file: {}", e)))?;
+            .map_err(|e| MeierError::Config(format!("Failed to write config file: {}", e)))?;
         Ok(())
     }
 
@@ -142,11 +141,11 @@ impl Config {
             .add_source(config::File::with_name(path.as_ref().to_str().unwrap()))
             .add_source(config::Environment::with_prefix("TESSERACT"))
             .build()
-            .map_err(|e| crate::error::TesseractError::Config(e.to_string()))?;
+            .map_err(|e| crate::error::MeierError::Config(e.to_string()))?;
 
         settings
             .try_deserialize()
-            .map_err(|e| crate::error::TesseractError::Config(e.to_string()))
+            .map_err(|e| crate::error::MeierError::Config(e.to_string()))
     }
 
     // 환경변수 내 추출
@@ -154,10 +153,10 @@ impl Config {
         let settings = config::Config::builder()
             .add_source(config::Environment::with_prefix("TESSERACT"))
             .build()
-            .map_err(|e| crate::error::TesseractError::Config(e.to_string()))?;
+            .map_err(|e| crate::error::MeierError::Config(e.to_string()))?;
 
         settings
             .try_deserialize()
-            .map_err(|e| crate::error::TesseractError::Config(e.to_string()))
+            .map_err(|e| crate::error::MeierError::Config(e.to_string()))
     }
 }

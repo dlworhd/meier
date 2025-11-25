@@ -1,9 +1,9 @@
 use clap::Parser;
-use tesseract_cluster::{Config, Result, server::Server};
+use meier_core::{Config, Result, server::Server};
 use tracing::{error, info};
 
 #[derive(Parser, Debug)]
-#[command(name = "tesseract")]
+#[command(name = "meier")]
 #[command(about = "A message broker server", long_about = None)]
 struct Args {}
 #[tokio::main]
@@ -21,7 +21,7 @@ async fn main() -> Result<()> {
 
     config.server.bind_addr = format!("{}:{}", "127.0.0.1", "2369");
 
-    info!("Starting Tesseract server on {}", config.server.bind_addr);
+    info!("Starting Meier server on {}", config.server.bind_addr);
     info!(
         "Storage config: max_topics={}, max_messages_per_partition={}, max_message_size_bytes={}",
         config.storage.max_topics,

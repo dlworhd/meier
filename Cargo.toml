@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/cluster", "crates/sdk/rust"]
+members = ["crates/core", "crates/sdk/rust"]
 resolver = "2"
 
 [workspace.package]

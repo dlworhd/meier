@@ -1,4 +1,4 @@
-use crate::{Result, TesseractError};
+use crate::{MeierError, Result};
 
 pub struct BufferManager {
     max_messages: usize,
@@ -24,7 +24,7 @@ impl BufferManager {
 
     pub fn add_message(&mut self, size: usize) -> Result<()> {
         if !self.can_add(size) {
-            return Err(TesseractError::BufferOverflow(format!(
+            return Err(MeierError::BufferOverflow(format!(
                 "Cannot add message: size={}, current={}/{} messages, {}/{} bytes",
                 size, self.message_count, self.max_messages, self.current_size, self.max_size_bytes
             )));

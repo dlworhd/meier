@@ -5,7 +5,7 @@ use tokio_util::codec::{FramedRead, FramedWrite};
 use tracing::{error, info};
 
 use crate::{
-    Config, Frame, Result, TesseractCodec, TesseractError,
+    Config, Frame, MeierCodec, MeierError, Result,
     handler::{handle_consume, handle_consume_next, handle_produce},
     protocol,
     storage::TopicManager,
@@ -34,7 +34,7 @@ impl Server {
         let addr = &self.config.server.bind_addr;
         let listener = TcpListener::bind(addr)
             .await
-            .map_err(|e| TesseractError::Io(e))?;
+            .map_err(|e| MeierError::Io(e))?;
 
         loop {
             match listener.accept().await {
@@ -42,7 +42,7 @@ impl Server {
                     info!("New Connection from {}", peer_addr);
 
                     let topic_manager = self.topic_manager.clone();
-                    let codec = TesseractCodec::new();
+                    let codec = MeierCodec::new();
 
                     tokio::spawn(async move {
                         if let Err(e) = Self::handle_connection(stream, topic_manager, codec).await
@@ -60,7 +60,7 @@ impl Server {
     async fn handle_connection(
         stream: TcpStream,
         topic_manager: Arc<TopicManager>,
-        codec: TesseractCodec,
+        codec: MeierCodec,
     ) -> Result<()> {
         let (read_half, write_half) = stream.into_split();
 

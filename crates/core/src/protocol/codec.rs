@@ -2,18 +2,18 @@ use bytes::{Buf, BufMut, BytesMut};
 use tokio_util::codec::{Decoder, Encoder};
 
 use crate::protocol::Frame;
-use crate::{Result, TesseractError};
+use crate::{MeierError, Result};
 
 /// 프로토콜 코덱
 ///
 /// 프레임 형식
 /// [길이: 4바이트(u32, big-endian)][데이터: JSON]
 #[derive(Clone)]
-pub struct TesseractCodec {
+pub struct MeierCodec {
     pub max_frame_length: usize,
 }
 
-impl TesseractCodec {
+impl MeierCodec {
     pub fn new() -> Self {
         Self {
             max_frame_length: 10 * 1024 * 1024, // 10MB
@@ -27,15 +27,15 @@ impl TesseractCodec {
     }
 }
 
-impl Default for TesseractCodec {
+impl Default for MeierCodec {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl Decoder for TesseractCodec {
+impl Decoder for MeierCodec {
     type Item = Frame;
-    type Error = TesseractError;
+    type Error = MeierError;
 
     fn decode(&mut self, src: &mut BytesMut) -> Result<Option<Self::Item>> {
         if src.len() < 4 {
@@ -45,7 +45,7 @@ impl Decoder for TesseractCodec {
         let length = u32::from_be_bytes([src[0], src[1], src[2], src[3]]) as usize;
 
         if length > self.max_frame_length {
-            return Err(TesseractError::Protocol(format!(
+            return Err(MeierError::Protocol(format!(
                 "Frame too large: {}, bytes (max: {})",
                 length, self.max_frame_length
             )));
@@ -71,15 +71,15 @@ impl Decoder for TesseractCodec {
     }
 }
 
-impl Encoder<Frame> for TesseractCodec {
-    type Error = TesseractError;
+impl Encoder<Frame> for MeierCodec {
+    type Error = MeierError;
 
     fn encode(&mut self, item: Frame, dst: &mut BytesMut) -> Result<()> {
         let data = item.to_bytes()?;
         let length = data.len();
 
         if length > self.max_frame_length {
-            return Err(TesseractError::Protocol(format!(
+            return Err(MeierError::Protocol(format!(
                 "Frame too large: {} bytes (max: {})",
                 length, self.max_frame_length
             )));

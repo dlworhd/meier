@@ -6,5 +6,5 @@ pub mod server;
 pub mod storage;
 
 pub use config::Config;
-pub use error::{Result, TesseractError};
-pub use protocol::{Frame, Status, TesseractCodec};
+pub use error::{MeierError, Result};
+pub use protocol::{Frame, MeierCodec, Status};

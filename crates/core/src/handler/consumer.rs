@@ -1,4 +1,4 @@
-use crate::{Frame, Result, TesseractError, protocol, storage::TopicManager};
+use crate::{Frame, MeierError, Result, protocol, storage::TopicManager};
 
 pub async fn handle_consume(
     topic_manager: &TopicManager,
@@ -9,12 +9,12 @@ pub async fn handle_consume(
     let topic = topic_manager
         .get_topic(&topic)
         .await
-        .ok_or_else(|| TesseractError::TopicNotFound(topic.clone()))?;
+        .ok_or_else(|| MeierError::TopicNotFound(topic.clone()))?;
 
     let partition = topic
         .get_partition(&partition_id.to_string())
         .ok_or_else(|| {
-            TesseractError::PartitionNotFound(format!(
+            MeierError::PartitionNotFound(format!(
                 "Partition {} not found in topic {}",
                 partition_id,
                 topic.name()
@@ -52,12 +52,12 @@ pub async fn handle_consume_next(
     let topic = topic_manager
         .get_topic(&topic)
         .await
-        .ok_or_else(|| TesseractError::TopicNotFound(topic.clone()))?;
+        .ok_or_else(|| MeierError::TopicNotFound(topic.clone()))?;
 
     let partition = topic
         .get_partition(&partition_id.to_string())
         .ok_or_else(|| {
-            TesseractError::PartitionNotFound(format!(
+            MeierError::PartitionNotFound(format!(
                 "Partition {} not found in topic {}",
                 partition_id,
                 topic.name()
